@@ -1,22 +1,31 @@
-const url =
-  "https://gist.githubusercontent.com/hiteshsahu/f58bcca95532fde77fd0d9e94a9c3148/raw/4ef7b30240c781341f1994f12453e9e7a5c2c67d/GirlImages.json";
+const url = "/data.json";
 
-const bodyEl = document.querySelector("body");
+const cardCont = document.querySelector(".cards__wrapper");
 
-fetch(url)
+document.addEventListener("DOMContentLoaded", () => {
+  fetch(url)
   .then((res) => {
     return res.json();
   })
   .then((result) => {
-    const data = result.GirlImages;
-    data.forEach((element) => {
-      bodyEl.insertAdjacentHTML(
-        "beforeend",
-        `
-            <div class="girl_card">
-                <img src="${element["image-url"]}" alt="">
-                <h1 class="descript">${element.description}</h1>
-            </div>
+    const data = result;
+    data.forEach((el) => {
+      cardCont.insertAdjacentHTML(
+        "beforeend", `
+      <div class="cards__item">
+        <div class="item-img" style="background-image: url(${el.img})">
+          <div class="item-img__hover">
+            <button class="item-img__hover-btn">Add to Cart</button>
+          </div>
+        </div>
+        <div class="item-description">
+          <h4 class="item-title">${el.header}</h4>
+          <p class="item-text">
+            ${el.descript}
+          </p>
+          <p class="item-price">${el.price}</p>
+        </div>
+      </div>
     `
       );
     });
@@ -24,3 +33,5 @@ fetch(url)
   .catch((error) => {
     console.log(error.message);
   });
+})
+
